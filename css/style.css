@@ -38,7 +38,7 @@ ul { padding: 0; list-style: none; }
 
 /* Figma: centered 1440 px grid with 20 px inner gutters. */
 .profile-inner { width: min(1440px, calc(100% - 80px)); min-height: 950px; padding: 174px 20px; margin-inline: auto; display: grid; grid-template-columns: 320px minmax(0, 1fr); column-gap: clamp(48px, 8.333333vw, 160px); align-items: start; }
-.portrait { width: 320px; height: 426px; position: relative; overflow: hidden; }
+.portrait { width: 320px; height: 426px; position: relative; overflow: hidden; background-color: #f4eddf;}
 .portrait img { display: block; position: absolute; width: 105.3125%; height: 101.643192488%; max-width: none; left: 50.15625%; top: 50.117370892%; transform: translate(-50%, -50%); object-fit: cover; }
 .contact { margin-top: 44px; }
 .section-title { display: flex; align-items: center; gap: 16px; font-size: 20px; line-height: 1.5; font-weight: 500; }
