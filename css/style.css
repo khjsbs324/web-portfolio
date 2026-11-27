@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-kr.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light;
+  --text: #222;
+  --muted: #666;
+  --rule: #bdbdbd;
+  --bullet: #999;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: #fff; color: var(--text); font-family: "Noto Sans KR", sans-serif; font-size: 16px; font-weight: 400; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+h1, h2, p, dl, dd, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+.portfolio { max-width: 1920px; margin-inline: auto; overflow: clip; }
+
+/* Figma: 1920 × 950, image: 1687 × 950. */
+.hero { width: 100%; }
+.hero-art { width: 87.864583333%; aspect-ratio: 1687 / 950; margin-inline: auto; position: relative; left: 0.5px; }
+.hero-art img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Figma: centered 1440 px grid with 20 px inner gutters. */
+.profile-inner { width: min(1440px, calc(100% - 80px)); min-height: 950px; padding: 174px 20px; margin-inline: auto; display: grid; grid-template-columns: 320px minmax(0, 1fr); column-gap: clamp(48px, 8.333333vw, 160px); align-items: start; }
+.portrait { width: 320px; height: 426px; background: #e2e2e2; position: relative; overflow: hidden; }
+.portrait img { position: absolute; width: 105.3125%; max-width: none; height: 101.643192%; left: calc(50% + 0.5px); top: calc(50% + 0.5px); transform: translate(-50%, -50%); object-fit: cover; }
+.contact { margin-top: 44px; }
+.section-title { display: flex; align-items: center; gap: 16px; font-size: 20px; line-height: 1.5; font-weight: 500; }
+.section-title::after { content: ""; flex: 1; height: 1px; background: var(--rule); min-width: 16px; }
+.name { white-space: nowrap; }
+.contact-list { margin-top: 16px; display: grid; gap: 6px; color: var(--muted); }
+.contact-list > div { display: flex; align-items: center; gap: 10px; min-height: 24px; }
+.contact-list > div::before, .bullet-list li::before { content: ""; width: 8px; height: 8px; flex: 0 0 8px; background: var(--bullet); }
+.contact-list dt { font-size: 16px; line-height: 1.5; text-transform: uppercase; }
+.contact-list dd { font-size: 14px; line-height: 1.5; }
+.contact-list > div:first-child { min-height: 26px; }
+.contact-list > div:first-child dt { line-height: 1.6; }
+.profile-copy { padding-top: 70px; min-width: 0; }
+.headline { display: flex; flex-wrap: wrap; gap: 0 6px; font-size: 24px; line-height: 1.5; color: #3b3b3b; font-weight: 500; margin-bottom: 82px; }
+.headline span:last-child { font-weight: 350; }
+.details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; row-gap: 62px; align-items: start; }
+.detail { min-width: 0; }
+.bullet-list { display: grid; gap: 6px; margin-top: 16px; color: var(--muted); line-height: 26px; }
+.bullet-list li { display: flex; align-items: baseline; gap: 10px; }
+.bullet-list li::before { align-self: start; margin-top: 9px; }
+.skill-list { display: grid; gap: 10px; margin-top: 24px; color: var(--muted); line-height: 1.5; }
+
+@media (max-width: 1199px) {
+  .profile-inner { width: calc(100% - 64px); padding: 100px 0; min-height: 800px; grid-template-columns: 280px minmax(0, 1fr); column-gap: 48px; }
+  .portrait { width: 280px; height: 372.75px; }
+  .profile-copy { padding-top: 40px; }
+  .headline { margin-bottom: 56px; }
+  .details-grid { gap: 40px 28px; }
+}
+
+@media (max-width: 900px) {
+  .profile-inner { grid-template-columns: 240px minmax(0, 1fr); gap: 40px; }
+  .portrait { width: 240px; height: 319.5px; }
+  .name { font-size: 17px; gap: 12px; }
+  .profile-copy { padding-top: 24px; }
+  .headline { font-size: 22px; margin-bottom: 44px; }
+  .details-grid { grid-template-columns: 1fr; gap: 32px; }
+  .education { order: 0; } .skills { order: 1; } .activities { order: 2; } .license { order: 3; }
+}
+
+@media (max-width: 600px) {
+  .hero-art { width: calc(100% - 32px); left: 0; }
+  .profile-inner { width: calc(100% - 48px); min-height: 0; padding: 72px 0 80px; grid-template-columns: minmax(0, 1fr); gap: 56px; }
+  .profile-person { width: min(320px, 100%); margin-inline: auto; }
+  .portrait { width: 100%; height: auto; aspect-ratio: 320 / 426; }
+  .contact { margin-top: 32px; }
+  .name { font-size: 20px; gap: 16px; }
+  .profile-copy { padding-top: 0; }
+  .headline { font-size: 22px; margin-bottom: 40px; }
+  .headline span { flex-basis: 100%; }
+  .details-grid { gap: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
