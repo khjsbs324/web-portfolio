@@ -15,6 +15,9 @@
         .from(".hero-branch", { opacity: 0, y: 32, duration: 1.8 }, .15)
         .from(".hero-label", { opacity: 0, y: 18, duration: 1.4 }, .55)
         .from(".hero-label p", { opacity: 0, y: 8, duration: 1.1, stagger: .12 }, .8);
+      intro.fromTo(".hero-flower",
+        { opacity: .1, filter: "grayscale(1) saturate(0)" },
+        { opacity: .38, filter: "grayscale(0) saturate(1)", duration: 3.6, ease: "sine.inOut" }, .45);
       gsap.to(".hero-flower", {
         y: 40, rotation: 3, ease: "none",
         scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1.6 }
@@ -53,9 +56,29 @@
       farewell.from(".closing-char", {
         opacity: 0, y: 13, filter: "blur(5px)", duration: 1.6,
         stagger: .055, ease: "power2.out"
-      }, .15).from(".closing-branch img", {
-        opacity: 0, y: 32, rotation: -2, duration: 2.6, ease: "sine.out"
+      }, .15);
+      // The whole branch moves together so blossoms stay attached to the twigs.
+      const bloom = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".closing", start: "top 95%", end: "bottom bottom",
+          scrub: 1.4, invalidateOnRefresh: true
+        }
+      });
+      bloom.from(".branch-growth", {
+        opacity: .15, y: 46, rotation: -3, duration: 1.5, ease: "sine.out"
       }, 0);
+      const leftFlowers = [...document.querySelectorAll(".closing-branch-left .blossom img")];
+      const rightFlowers = [...document.querySelectorAll(".closing-branch-right .blossom img")];
+      const flowers = leftFlowers.flatMap(function (flower, index) {
+        return [flower, rightFlowers[index]];
+      });
+      gsap.set(flowers, { opacity: 0, scale: .12 });
+      // A timed sequence preserves each bloom even when the user scrolls quickly.
+      gsap.to(flowers, {
+        opacity: 1, scale: 1, duration: .45,
+        stagger: .12, ease: "power2.out", delay: .15,
+        scrollTrigger: { trigger: ".closing", start: "top 85%", once: true }
+      });
       return function () {
         phrases.forEach(function (phrase, index) {
           phrase.textContent = originals[index];
@@ -75,7 +98,8 @@
         x: function () { return -travel(); }, ease: "none",
         scrollTrigger: {
           trigger: section, start: "top top", end: function () { return "+=" + travel(); },
-          pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true
+          pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
+          refreshPriority: 1
         }
       });
       galleryScroll = tween.scrollTrigger;
@@ -97,6 +121,9 @@
       window.scrollTo({ top: gsap.utils.clamp(trigger.start, trigger.end, destination), behavior: "smooth" });
     });
 
+    // Measure the pinned gallery before the footer's bloom range.
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
     if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
     $(window).on("load.portfolio pageshow.portfolio", function () { ScrollTrigger.refresh(); });
   });

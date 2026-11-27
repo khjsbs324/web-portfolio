@@ -25,12 +25,12 @@ ul { padding: 0; list-style: none; }
 /* Variant 3: proportional collage, measured against the 1920 px canvas. */
 .hero { position: relative; width: 100%; background: #f4eddf; overflow: hidden; }
 .hero-grid { position: relative; width: 75%; aspect-ratio: 1440 / 1080; margin-inline: auto; }
-.hero-flower { position: absolute; width: 48.5039%; height: auto; left: -14.375%; top: -37.1296%; opacity: .1; mix-blend-mode: luminosity; pointer-events: none; }
-.hero-picture { position: absolute; left: 31.9444%; top: 12.1296%; width: 63.8194%; height: 68.2407%; overflow: hidden; background: #e5dccd; }
-.hero-art { position: absolute; display: block; width: 377.0403%; height: 264.7218%; max-width: none; left: -2.8292%; top: -157.5305%; object-fit: cover; }
-.hero-branch { position: absolute; left: 1.3889%; top: 19.1667%; width: 27.7778%; height: 57.5%; background: #e5dccd; overflow: hidden; }
-.branch-art { position: absolute; display: block; width: 177.9943%; height: auto; left: 7.5%; top: 4.9919%; }
-.hero-label { position: absolute; left: 58.0556%; top: 72.7778%; width: 40.5556%; height: 15.0926%; padding: 2.2222% 3.4028%; background: #e5dccd; color: #414141; }
+.hero-flower { position: absolute; width: 48.5039%; height: auto; left: -14.1146%; top: -37.1296%; opacity: .38; pointer-events: none; }
+.hero-picture { position: absolute; left: 29.1667%; top: 9.35185%; width: 69.4444%; height: 68.2407%; overflow: hidden; background: #e5dccd; }
+.hero-art { position: absolute; display: block; width: 206.3%; height: auto; aspect-ratio: 2063 / 1162; max-width: none; left: -2.6%; top: -50.4749%; object-fit: cover; }
+.hero-branch { position: absolute; left: 1.3889%; top: 20.0926%; width: 22.2222%; height: 53.7963%; background: #e5dccd; overflow: hidden; }
+.branch-art { position: absolute; display: block; width: 138.6403%; height: auto; left: 9.375%; top: 9.0516%; }
+.hero-label { position: absolute; left: 58.0556%; top: 70%; width: 43.6806%; height: 15.0926%; padding: 2.2222% 5%; background: #e5dccd; color: #414141; }
 .hero-name, .hero-caption { font-size: clamp(9px, .729167vw, 14px); line-height: 1.3; }
 .hero-title { margin-top: 3%; font-size: clamp(11px, 1.041667vw, 20px); letter-spacing: .04em; color: #333; white-space: nowrap; }
 .hero-caption { display: flex; justify-content: space-between; gap: 8px; margin-top: 5%; }
@@ -71,10 +71,14 @@ ul { padding: 0; list-style: none; }
 .projects.is-pinned .projects-window { overflow: hidden; scroll-snap-type: none; }
 .closing { position: relative; overflow: hidden; min-height: 384px; display: grid; place-items: center; padding: 64px 24px; background: #e5dccd; }
 .closing-headline { position: relative; z-index: 1; justify-content: center; margin: 0; text-align: center; color: #7d6d53; font-size: 18px; }
-.closing-branch { position: absolute; top: 31px; width: 37.0821%; pointer-events: none; }
-.closing-branch img { display: block; width: 100%; height: auto; }
-.closing-branch-left { left: 1.5625%; }
-.closing-branch-right { right: 1.4583%; transform: scaleX(-1); }
+.closing-branch { position: absolute; top: 0; width: 37.0821%; pointer-events: none; }
+.closing-branch > img { display: block; width: 100%; height: auto; }
+.closing-branch-left { left: 7.7083%; }
+.closing-branch-right { right: 6.1979%; top: 45px; transform: scaleX(-1); }
+.branch-growth { position: relative; transform-origin: 48% 34%; }
+.branch-growth > img { display: block; width: 100%; height: auto; }
+.blossom { position: absolute; left: var(--x); top: var(--y); width: var(--size); min-width: 17px; transform: translate(-50%, -50%) rotate(var(--angle)); }
+.blossom img { display: block; width: 100%; height: auto; transform-origin: 50% 65%; }
 .closing-char { display: inline-block; white-space: pre; }
 
 @media (min-width: 1024px) {
@@ -107,7 +111,8 @@ ul { padding: 0; list-style: none; }
   .hero-grid { width: calc(100% - 32px); aspect-ratio: 358 / 500; }
   .hero-picture { left: 24%; top: 12%; width: 76%; height: 58%; }
   .hero-branch { left: 0; top: 23%; width: 29%; height: 49%; }
-  .branch-art { width: 230%; top: 8%; left: -5%; }
+  .branch-art { width: 170%; top: 8%; left: -5%; }
+  .hero-art { width: 290%; top: -28%; left: -22%; }
   .hero-label { left: 16%; top: 67%; width: 84%; height: auto; padding: 22px; }
   .hero-name, .hero-caption { font-size: 10px; }
   .hero-title { font-size: clamp(11px, 3.3vw, 18px); margin-top: 12px; }
@@ -127,11 +132,13 @@ ul { padding: 0; list-style: none; }
   .project-card { width: calc(100vw - 48px); padding: 12px; }
   .closing { min-height: 280px; }
   .closing-headline { font-size: 18px; gap: 8px; }
-  .closing-branch { top: 110px; width: 62%; opacity: .45; }
-  .closing-branch-left { left: -26%; }
-  .closing-branch-right { right: -26%; }
+  .closing-branch { top: 115px; width: 78%; opacity: .85; }
+  .closing-branch-left { left: -34%; }
+  .closing-branch-right { right: -34%; top: 125px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .blossom img, .branch-growth { opacity: 1 !important; transform: none !important; }
+  .hero-flower { filter: none !important; }
 }
