@@ -10,22 +10,58 @@
     let galleryScroll = null;
 
     media.add("(prefers-reduced-motion: no-preference)", function () {
-      gsap.fromTo(".hero-art", { autoAlpha: 0, y: 32, scale: 0.98 }, {
-        autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out"
+      const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+      intro.from(".hero-picture", { opacity: 0, y: 24, duration: 1.8 })
+        .from(".hero-branch", { opacity: 0, y: 32, duration: 1.8 }, .15)
+        .from(".hero-label", { opacity: 0, y: 18, duration: 1.4 }, .55)
+        .from(".hero-label p", { opacity: 0, y: 8, duration: 1.1, stagger: .12 }, .8);
+      gsap.to(".hero-flower", {
+        y: 40, rotation: 3, ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1.6 }
       });
 
-      $(".profile-person, .profile-copy > .headline, .detail, .closing-headline").each(function () {
+      $(".profile-person, .profile-copy > .headline, .detail").each(function () {
         gsap.set(this, { autoAlpha: 0, y: 28 });
         gsap.to(this, {
-          autoAlpha: 1, y: 0, duration: 0.85, ease: "power3.out",
+          autoAlpha: 1, y: 0, duration: 1.15, ease: "power3.out",
           scrollTrigger: { trigger: this, start: "top 90%", once: true }
         });
       });
 
       gsap.fromTo(".project-card", { autoAlpha: 0, y: 32 }, {
-        autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out",
+        autoAlpha: 1, y: 0, duration: 1.2, stagger: 0.16, ease: "power3.out",
         scrollTrigger: { trigger: ".projects", start: "top 90%", once: true }
       });
+
+      // Keep complete phrases available to assistive technology.
+      const phrases = [...document.querySelectorAll(".closing-headline > span")];
+      const originals = phrases.map(function (phrase) { return phrase.textContent; });
+      phrases.forEach(function (phrase, index) {
+        phrase.setAttribute("aria-label", originals[index]);
+        phrase.textContent = "";
+        Array.from(originals[index]).forEach(function (character) {
+          const letter = document.createElement("span");
+          letter.className = "closing-char";
+          letter.setAttribute("aria-hidden", "true");
+          letter.textContent = character;
+          phrase.appendChild(letter);
+        });
+      });
+      const farewell = gsap.timeline({
+        scrollTrigger: { trigger: ".closing", start: "top 85%", once: true }
+      });
+      farewell.from(".closing-char", {
+        opacity: 0, y: 13, filter: "blur(5px)", duration: 1.6,
+        stagger: .055, ease: "power2.out"
+      }, .15).from(".closing-branch img", {
+        opacity: 0, y: 32, rotation: -2, duration: 2.6, ease: "sine.out"
+      }, 0);
+      return function () {
+        phrases.forEach(function (phrase, index) {
+          phrase.textContent = originals[index];
+          phrase.removeAttribute("aria-label");
+        });
+      };
     });
 
     media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", function () {
