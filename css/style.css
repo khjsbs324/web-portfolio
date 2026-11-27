@@ -12,24 +12,23 @@
   --muted: #666;
   --rule: #bdbdbd;
   --bullet: #999;
+  --placeholder: #d9d9d9;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: #fff; color: var(--text); font-family: "Noto Sans KR", sans-serif; font-size: 16px; font-weight: 400; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 ul { padding: 0; list-style: none; }
-img { display: block; max-width: 100%; }
 .portfolio { max-width: 1920px; margin-inline: auto; overflow: clip; }
+.image-placeholder { background: var(--placeholder); }
 
 /* Figma: 1920 × 950, image: 1687 × 950. */
 .hero { width: 100%; }
 .hero-art { width: 87.864583333%; aspect-ratio: 1687 / 950; margin-inline: auto; position: relative; left: 0.5px; }
-.hero-art img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Figma: centered 1440 px grid with 20 px inner gutters. */
 .profile-inner { width: min(1440px, calc(100% - 80px)); min-height: 950px; padding: 174px 20px; margin-inline: auto; display: grid; grid-template-columns: 320px minmax(0, 1fr); column-gap: clamp(48px, 8.333333vw, 160px); align-items: start; }
-.portrait { width: 320px; height: 426px; background: #e2e2e2; position: relative; overflow: hidden; }
-.portrait img { position: absolute; width: 105.3125%; max-width: none; height: 101.643192%; left: calc(50% + 0.5px); top: calc(50% + 0.5px); transform: translate(-50%, -50%); object-fit: cover; }
+.portrait { width: 320px; height: 426px; position: relative; overflow: hidden; }
 .contact { margin-top: 44px; }
 .section-title { display: flex; align-items: center; gap: 16px; font-size: 20px; line-height: 1.5; font-weight: 500; }
 .section-title::after { content: ""; flex: 1; height: 1px; background: var(--rule); min-width: 16px; }
@@ -51,6 +50,22 @@ img { display: block; max-width: 100%; }
 .bullet-list li::before { align-self: start; margin-top: 9px; }
 .skill-list { display: grid; gap: 10px; margin-top: 24px; color: var(--muted); line-height: 1.5; }
 
+/* Variant 2: three 1160 × 782 project cards, spaced 40 px apart. */
+.projects { --project-gutter: max(40px, calc((100% - 1440px) / 2 + 20px)); position: relative; background: #fff; }
+.projects-window { width: 100%; padding-block: 84px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #bdbdbd transparent; scroll-snap-type: x mandatory; }
+.projects-window:focus-visible { outline: 2px solid #666; outline-offset: -4px; }
+.project-track { width: max-content; display: flex; gap: clamp(24px, 2.083333vw, 40px); padding-inline: var(--project-gutter); }
+.project-card { width: clamp(640px, 60.416667vw, 1160px); aspect-ratio: 1160 / 782; flex: none; padding: 22px 27px 23px; background: #ebebeb; scroll-snap-align: center; }
+.project-image { width: 100%; height: 100%; }
+.projects.is-pinned .projects-window { overflow: hidden; scroll-snap-type: none; }
+.closing { min-height: 384px; display: grid; place-items: center; padding: 64px 24px; }
+.closing-headline { justify-content: center; margin: 0; text-align: center; }
+
+@media (min-width: 1024px) {
+  .projects-window { height: min(950px, 100svh); padding-block: min(84px, 8.8421svh); display: flex; align-items: center; }
+  .project-card { max-height: calc(100svh - 120px); width: min(clamp(640px, 60.416667vw, 1160px), calc((100svh - 120px) * 1160 / 782)); }
+}
+
 @media (max-width: 1199px) {
   .profile-inner { width: calc(100% - 64px); padding: 100px 0; min-height: 800px; grid-template-columns: 280px minmax(0, 1fr); column-gap: 48px; }
   .portrait { width: 280px; height: 372.75px; }
@@ -67,6 +82,9 @@ img { display: block; max-width: 100%; }
   .headline { font-size: 22px; margin-bottom: 44px; }
   .details-grid { grid-template-columns: 1fr; gap: 32px; }
   .education { order: 0; } .skills { order: 1; } .activities { order: 2; } .license { order: 3; }
+  .projects { --project-gutter: 32px; }
+  .projects-window { padding-block: 56px; }
+  .project-card { width: min(640px, calc(100vw - 64px)); padding: 16px; }
 }
 
 @media (max-width: 600px) {
@@ -80,6 +98,12 @@ img { display: block; max-width: 100%; }
   .headline { font-size: 22px; margin-bottom: 40px; }
   .headline span { flex-basis: 100%; }
   .details-grid { gap: 36px; }
+  .projects { --project-gutter: 24px; }
+  .projects-window { padding-block: 32px; }
+  .project-track { gap: 20px; }
+  .project-card { width: calc(100vw - 48px); padding: 12px; }
+  .closing { min-height: 280px; }
+  .closing-headline { font-size: 20px; gap: 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

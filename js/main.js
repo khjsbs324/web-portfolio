@@ -1,53 +1,67 @@
-/* global jQuery, gsap, ScrollTrigger */
+﻿/* global gsap, ScrollTrigger */
 (function ($) {
   "use strict";
-
-  // Keep the content visible if a library cannot load.
   if (!$) return;
 
   $(function () {
     if (!window.gsap || !window.ScrollTrigger) return;
-
     gsap.registerPlugin(ScrollTrigger);
-
     const media = gsap.matchMedia();
+    let galleryScroll = null;
+
     media.add("(prefers-reduced-motion: no-preference)", function () {
-      // (접속) 페이드 업: reveal the intro as its image becomes ready.
-      const hero = document.querySelector(".hero-art");
-      const image = hero.querySelector("img");
-      const intro = gsap.fromTo(hero,
-        { autoAlpha: 0, y: 56 },
-        { autoAlpha: 1, y: 0, duration: 1.4, ease: "power3.out", paused: true, clearProps: "all" }
-      );
-      let active = true;
-      const revealHero = function () { if (active) intro.play(); };
-
-      if (image.complete) revealHero();
-      else $(image).one("load.portfolio error.portfolio", revealHero);
-
-      // (스크롤) 좌우 슬라이드: portrait from the left, details from the right.
-      $("[data-slide]").each(function () {
-        const distance = window.innerWidth <= 600 ? 36 : 90;
-        gsap.set(this, { autoAlpha: 0, x: $(this).data("slide") === "left" ? -distance : distance });
-        gsap.to(this,
-          {
-            autoAlpha: 1, x: 0, duration: 1.15, ease: "power3.out",
-            scrollTrigger: { trigger: this, start: "top 85%", once: true, invalidateOnRefresh: true }
-          }
-        );
+      gsap.fromTo(".hero-art", { autoAlpha: 0, y: 32, scale: 0.98 }, {
+        autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out"
       });
 
+      $(".profile-person, .profile-copy > .headline, .detail, .closing-headline").each(function () {
+        gsap.set(this, { autoAlpha: 0, y: 28 });
+        gsap.to(this, {
+          autoAlpha: 1, y: 0, duration: 0.85, ease: "power3.out",
+          scrollTrigger: { trigger: this, start: "top 90%", once: true }
+        });
+      });
+
+      gsap.fromTo(".project-card", { autoAlpha: 0, y: 32 }, {
+        autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out",
+        scrollTrigger: { trigger: ".projects", start: "top 90%", once: true }
+      });
+    });
+
+    media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", function () {
+      const section = document.querySelector(".projects");
+      const viewport = section.querySelector(".projects-window");
+      const track = section.querySelector(".project-track");
+      viewport.scrollLeft = 0;
+      section.classList.add("is-pinned");
+      const travel = function () { return Math.max(0, track.scrollWidth - viewport.clientWidth); };
+      const tween = gsap.to(track, {
+        x: function () { return -travel(); }, ease: "none",
+        scrollTrigger: {
+          trigger: section, start: "top top", end: function () { return "+=" + travel(); },
+          pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true
+        }
+      });
+      galleryScroll = tween.scrollTrigger;
       return function () {
-        active = false;
-        $(image).off(".portfolio");
+        galleryScroll = null;
+        section.classList.remove("is-pinned");
+        viewport.scrollLeft = 0;
       };
     });
 
-    // Recalculate scroll positions when font metrics and images settle.
-    if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
-    $(window).on("load.portfolio", function () { ScrollTrigger.refresh(); });
-    $(window).on("pageshow.portfolio", function (event) {
-      if (event.originalEvent.persisted) ScrollTrigger.refresh();
+    // Native horizontal scrolling remains available on mobile and without animation.
+    $(".projects-window").on("keydown.portfolio", function (event) {
+      if (!galleryScroll || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const trigger = galleryScroll;
+      let destination = window.scrollY + (event.key === "ArrowRight" ? 420 : -420);
+      if (event.key === "Home") destination = trigger.start;
+      if (event.key === "End") destination = trigger.end;
+      window.scrollTo({ top: gsap.utils.clamp(trigger.start, trigger.end, destination), behavior: "smooth" });
     });
+
+    if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+    $(window).on("load.portfolio pageshow.portfolio", function () { ScrollTrigger.refresh(); });
   });
 })(window.jQuery);

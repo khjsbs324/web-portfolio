@@ -1,10 +1,10 @@
-# 김혜지 프로필 포트폴리오
+﻿# 김혜지 프로필 포트폴리오 · 시안2
 
-Figma의 `강사 프로필 > 프로필 all` 프레임을 HTML, CSS, jQuery, GSAP으로 구현했습니다.
+Figma의 `강사 프로필 > 시안2`(802:934)를 HTML, CSS, jQuery, GSAP으로 구현했습니다.
 
 ## 실행
 
-`index.html`을 브라우저로 열면 됩니다. 로컬 서버를 사용하려면 저장소에서 다음 명령을 실행하세요.
+`index.html`을 브라우저에서 열거나 아래 명령으로 로컬 서버를 실행하세요.
 
 ```powershell
 python -m http.server 5173 --bind 127.0.0.1
@@ -12,23 +12,27 @@ python -m http.server 5173 --bind 127.0.0.1
 
 접속: http://127.0.0.1:5173
 
-## 파일
+## 구성
 
-- `index.html`: 프로필 콘텐츠와 이미지 주소
-- `css/style.css`: 원본 레이아웃, 글꼴, 태블릿·모바일 반응형 스타일
-- `js/main.js`: jQuery 초기화, GSAP 페이드 업과 ScrollTrigger 좌우 슬라이드
-- `vendor/`: jQuery 3.7.1, GSAP 3.13.0, ScrollTrigger 3.13.0
-- `assets/fonts/`: 현재 프로필 문구에 사용하는 Noto Sans KR 글꼴 서브셋
+- 인트로 → 프로필 → 가로 프로젝트 카드 3개 → 마지막 소개 문구
+- 인트로·프로필·프로젝트 이미지 5곳은 모두 회색 박스로 표시
+- `index.html`: 콘텐츠와 이미지 자리
+- `css/style.css`: 원본 크기·간격, 회색 박스와 반응형 레이아웃
+- `js/main.js`: jQuery 초기화와 GSAP·ScrollTrigger 애니메이션
+- `vendor/`: jQuery 3.7.1, GSAP·ScrollTrigger 3.13.0
+- `assets/fonts/`: 현재 프로필 문구용 Noto Sans KR 가변 글꼴 서브셋
 
-이미지는 `이미지주소.md`에 있는 꽃 이미지 CDN 주소와 프로필 사진 원본 주소를 사용합니다. 이미지를 표시하려면 인터넷 연결이 필요합니다. 글꼴과 JS 라이브러리는 로컬에서 불러옵니다. 문구에 없는 글자는 시스템 글꼴로 표시될 수 있습니다.
+현재 외부 이미지를 요청하지 않습니다. `이미지주소.md`는 나중에 이미지를 넣을 때 참고할 수 있도록 보존했습니다. 예시 연락처·학력·활동·자격증과 마지막 문구는 시안 내용을 유지했습니다.
 
-## 애니메이션
+## 애니메이션과 조작
 
-- 접속: 꽃 이미지가 56px 아래에서 1.4초 동안 페이드 업
-- 스크롤: 프로필 사진·연락처는 왼쪽, 소개·상세 정보는 오른쪽에서 1.15초 동안 등장
-- 각 영역이 화면 높이의 85% 지점에 들어오면 한 번 재생
-- 동작 줄이기(`prefers-reduced-motion`) 설정 시 애니메이션 생략
+- 인트로: 짧은 페이드 업과 작은 크기 변화
+- 프로필·상세 항목: 스크롤에 따라 아래에서 등장
+- 데스크톱(1024px 이상): 프로젝트 영역을 고정하고 세로 스크롤을 카드의 가로 이동에 연결
+- 모바일·태블릿: 프로젝트 목록을 터치 또는 가로 스크롤로 넘김
+- 프로젝트 목록에 키보드 포커스를 두면 좌우 방향키로 이동 가능. 데스크톱 고정 구간에서는 Home/End도 지원
+- 동작 줄이기 설정 또는 JS 미사용 시: 고정·등장 효과 없이 콘텐츠 표시, 프로젝트는 기본 가로 스크롤 사용
 
-속도·거리는 Figma에 수치가 없어 설정한 값이며 `js/main.js`에서 수정할 수 있습니다. 예시 학력·연락처·활동·자격증은 원본 문구를 유지했습니다.
+카드들을 모두 볼 수 있도록 가로 이동을 적용했습니다. 데스크톱 애니메이션 사용 시 실제 세로 스크롤 길이는 원본 3234px보다 길어집니다.
 
-라이브러리 참고: [jQuery](https://jquery.com/download/), [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/), [GSAP matchMedia](https://gsap.com/docs/v3/GSAP/gsap.matchMedia%28%29/).
+참고: [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/), [GSAP matchMedia](https://gsap.com/docs/v3/GSAP/gsap.matchMedia%28%29/).
